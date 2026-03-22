@@ -2,121 +2,217 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corte Maestro - Premium Barber</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Corte Maestro | Premium Barber</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        :root { --cream: #f4eade; --glass: rgba(0, 0, 0, 0.85); --border: rgba(244, 234, 222, 0.12); }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #000; color: var(--cream); font-family: 'Inter', sans-serif; overflow-x: hidden; }
-
-        /* HERO SECCIÓN - ADAPTADA A MÓVIL */
-        .hero {
-            height: 100vh; width: 100%;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('fondo-barberia.jpg') no-repeat center center;
-            background-size: cover; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; padding: 20px;
+        :root {
+            --cream: #f4eade;
+            --glass: rgba(0, 0, 0, 0.88);
+            --border: rgba(244, 234, 222, 0.15);
+            --accent: #f4eade;
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body, html { 
+            height: 100%; width: 100%; background: #000; 
+            font-family: 'Inter', sans-serif; color: var(--cream); 
+            overflow: hidden; /* Evita el scroll hacia abajo */
+        }
+
+        /* Fondo de pantalla completo */
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.95)), 
+                        url('fondo-barberia.jpg') no-repeat center center;
+            background-size: cover; z-index: -1;
+        }
+
+        /* Estructura de Pantallas (SPA) */
+        .screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0; pointer-events: none; transform: scale(1.05);
+        }
+
+        .screen.active { opacity: 1; pointer-events: auto; transform: scale(1); }
+
+        /* --- PANTALLA DE INICIO --- */
+        .logo-container { text-align: center; }
         .logo-main {
-            font-family: 'UnifrakturMaguntia', serif; font-size: clamp(50px, 15vw, 100px); 
-            line-height: 0.8; color: white; margin-bottom: 10px;
+            font-family: 'UnifrakturMaguntia', serif;
+            font-size: clamp(65px, 20vw, 130px);
+            line-height: 0.8; color: #fff; margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255,255,255,0.2);
         }
-        .logo-main span { display: block; font-size: clamp(25px, 6vw, 45px); font-weight: 400; }
+        .logo-main span { display: block; font-size: 0.35em; font-weight: 400; letter-spacing: 5px; }
+        
+        .hero-tagline { font-size: 12px; letter-spacing: 4px; opacity: 0.6; text-transform: uppercase; margin-bottom: 40px; }
 
-        .hero-subtitle { font-size: clamp(12px, 3vw, 16px); opacity: 0.8; margin-bottom: 40px; }
-
-        /* TARJETAS DE SERVICIOS - GRID RESPONSIVO */
-        .services { padding: 60px 20px; background: #050505; text-align: center; }
-        .services-header { 
-            font-size: 28px; letter-spacing: 5px; text-transform: uppercase; 
-            margin-bottom: 50px; border-bottom: 2px solid var(--cream); display: inline-block; padding-bottom: 10px;
+        .btn-start {
+            background: transparent; color: var(--cream); border: 1px solid var(--cream);
+            padding: 20px 50px; font-size: 13px; text-transform: uppercase;
+            letter-spacing: 5px; font-weight: 600; cursor: pointer;
+            transition: 0.4s;
         }
+        .btn-start:hover { background: var(--cream); color: #000; box-shadow: 0 0 30px rgba(244, 234, 222, 0.3); }
 
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px; max-width: 1200px; margin: 0 auto;
-        }
-
-        .service-card {
-            background: var(--glass); border: 1px solid var(--border); border-radius: 10px;
-            padding: 30px; text-align: left; transition: 0.3s;
-        }
-
-        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
-        .card-title { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: white; }
-
-        .price-item {
-            display: flex; justify-content: space-between; padding: 15px 0;
-            border-bottom: 1px solid rgba(244, 234, 222, 0.05); cursor: pointer;
-            transition: 0.2s; font-size: 14px;
-        }
-        .price-item:hover { color: white; background: rgba(255,255,255,0.05); padding-left: 5px; }
-        .price-value { font-weight: 600; color: #fff; }
-
-        /* WHATSAPP FLOTANTE */
-        .btn-whatsapp {
-            position: fixed; bottom: 30px; right: 30px; background: #25d366;
-            color: white; width: 60px; height: 60px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100;
-            text-decoration: none;
+        /* --- PANTALLA DE SERVICIOS --- */
+        .services-header {
+            font-size: 22px; letter-spacing: 8px; text-transform: uppercase;
+            margin-bottom: 30px; border-bottom: 1px solid var(--border);
+            padding-bottom: 10px; width: 100%; max-width: 400px; text-align: center;
         }
 
-        /* AJUSTES ESPECÍFICOS PARA TELÉFONOS MUY PEQUEÑOS */
-        @media (max-width: 480px) {
-            .services-grid { grid-template-columns: 1fr; }
-            .service-card { padding: 20px; }
+        .scroll-container {
+            width: 100%; max-width: 450px; height: 65vh;
+            overflow-y: auto; padding-right: 10px;
         }
+        /* Scrollbar invisible pero funcional */
+        .scroll-container::-webkit-scrollbar { width: 2px; }
+        .scroll-container::-webkit-scrollbar-thumb { background: var(--border); }
+
+        .card {
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 15px; padding: 25px; margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .card-category {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 15px;
+            font-size: 14px; font-weight: 600; letter-spacing: 2px; color: #fff;
+        }
+
+        .price-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer; transition: 0.3s;
+        }
+        .price-row:last-child { border-bottom: none; }
+        .price-row:active { background: rgba(255,255,255,0.05); transform: translateX(5px); }
+        
+        .item-name { font-size: 14px; opacity: 0.8; text-transform: uppercase; }
+        .item-price { font-weight: 600; color: #fff; font-size: 16px; }
+
+        .btn-back {
+            margin-top: 20px; background: none; border: none; color: var(--cream);
+            opacity: 0.5; font-size: 12px; letter-spacing: 2px; cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Botón WhatsApp Flotante */
+        .wa-float {
+            position: fixed; bottom: 30px; right: 30px;
+            background: #25d366; color: white; width: 60px; height: 60px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-decoration: none; z-index: 100;
+            transform: translateY(120px); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .wa-float.visible { transform: translateY(0); }
+
+        /* Indicador de sección /03 */
+        .section-tag { position: absolute; top: 40px; right: 40px; font-size: 12px; opacity: 0.3; letter-spacing: 3px; }
     </style>
 </head>
 <body>
 
-    <section class="hero">
-        <div class="logo-main">Corte Maestro<span>Barbería</span></div>
-        <p class="hero-subtitle">Desde 2010 • Cuidado Personal Masculino Premium</p>
+    <div class="bg-overlay"></div>
+
+    <section id="home" class="screen active">
+        <div class="logo-container">
+            <h1 class="logo-main">Corte Maestro<span>Barbería</span></h1>
+            <p class="hero-tagline">Cuidado Personal Masculino Premium</p>
+            <button class="btn-start" onclick="navTo('services')">Reservar Cita</button>
+        </div>
     </section>
 
-    <section class="services">
-        <h2 class="services-header">Nuestros Servicios</h2>
-        <div class="services-grid">
+    <section id="services" class="screen">
+        <div class="section-tag">/03</div>
+        <h2 class="services-header">Servicios</h2>
+        
+        <div class="scroll-container">
             
-            <div class="service-card">
-                <div class="card-header"><i class="fas fa-cut"></i> <h3 class="card-title">Cortes</h3></div>
-                <div class="price-item" onclick="reservar('Corte Clásico', '$6')">
-                    <span>Corte Clásico</span> <span class="price-value">$6</span>
+            <div class="card">
+                <div class="card-category"><i class="fas fa-cut"></i> CORTES DE CABELLO</div>
+                <div class="price-row" onclick="agendar('Corte Clásico', '$6')">
+                    <span class="item-name">Corte Clásico</span>
+                    <span class="item-price">$6</span>
                 </div>
-                <div class="price-item" onclick="reservar('Corte con Máquina', '$8')">
-                    <span>Corte con Máquina</span> <span class="price-value">$8</span>
+                <div class="price-row" onclick="agendar('Corte con Máquina', '$8')">
+                    <span class="item-name">Corte con Máquina</span>
+                    <span class="item-price">$8</span>
+                </div>
+                <div class="price-row" onclick="agendar('Corte Junior', '$5')">
+                    <span class="item-name">Corte Junior</span>
+                    <span class="item-price">$5</span>
                 </div>
             </div>
 
-            <div class="service-card">
-                <div class="card-header"><i class="fas fa-user-tie"></i> <h3 class="card-title">Barba</h3></div>
-                <div class="price-item" onclick="reservar('Recorte de Barba', '$6')">
-                    <span>Recorte de Barba</span> <span class="price-value">$6</span>
+            <div class="card">
+                <div class="card-category"><i class="fas fa-user-tie"></i> CUIDADO DE BARBA</div>
+                <div class="price-row" onclick="agendar('Recorte de Barba', '$6')">
+                    <span class="item-name">Recorte de Barba</span>
+                    <span class="item-price">$6</span>
                 </div>
-                <div class="price-item" onclick="reservar('Modelado Premium', '$10')">
-                    <span>Modelado Premium</span> <span class="price-value">$10</span>
+                <div class="price-row" onclick="agendar('Modelado Premium', '$10')">
+                    <span class="item-name">Modelado Premium</span>
+                    <span class="item-price">$10</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-category"><i class="fas fa-gem"></i> PAQUETES</div>
+                <div class="price-row" onclick="agendar('Corte & Barba', '$12')">
+                    <span class="item-name">Corte & Barba</span>
+                    <span class="item-price">$12</span>
+                </div>
+                <div class="price-row" onclick="agendar('Servicio Ejecutivo', '$30')">
+                    <span class="item-name">Ejecutivo</span>
+                    <span class="item-price">$30</span>
                 </div>
             </div>
 
         </div>
+
+        <button class="btn-back" onclick="navTo('home')"><i class="fas fa-arrow-left"></i> Volver al inicio</button>
     </section>
 
-    <a href="https://wa.me/584120361856" class="btn-whatsapp" target="_blank">
+    <a id="wa-button" href="#" class="wa-float" onclick="agendar('General', 'Consulta')">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <script>
-        function reservar(servicio, precio) {
-            const num = "584120361856"; // CAMBIA ESTO
-            const msj = `Hola! Quiero agendar: *${servicio}* (${precio})`;
-            window.open(`https://wa.me/${num}?text=${encodeURIComponent(msj)}`, '_blank');
+        // CONFIGURACIÓN DEL BARBERO
+        const TELEFONO = "584120000000"; // <--- CAMBIA ESTO
+
+        // NAVEGACIÓN ENTRE PANTALLAS
+        function navTo(screenId) {
+            // Desactivar todas
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            // Activar la deseada
+            document.getElementById(screenId).classList.add('active');
+
+            // Mostrar/Ocultar botón de WhatsApp
+            const wa = document.getElementById('wa-button');
+            if(screenId === 'services') {
+                wa.classList.add('visible');
+            } else {
+                wa.classList.remove('visible');
+            }
+        }
+
+        // LÓGICA DE WHATSAPP
+        function agendar(servicio, precio) {
+            const texto = `Hola! 👋 Vi tu catálogo *Corte Maestro* y quiero agendar una cita para: \n\n📌 *${servicio}* \n💰 Precio: *${precio}* \n\n¿Qué disponibilidad tienes?`;
+            const url = `https://wa.me/${TELEFONO}?text=${encodeURIComponent(texto)}`;
+            window.open(url, '_blank');
         }
     </script>
+
 </body>
 </html>
