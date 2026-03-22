@@ -188,7 +188,7 @@
 
     <script>
         // CONFIGURACIÓN DEL BARBERO
-        const TELEFONO = "584120000000"; // <--- CAMBIA ESTO
+        const TELEFONO = "584120361856"; // <--- CAMBIA ESTO
 
         // NAVEGACIÓN ENTRE PANTALLAS
         function navTo(screenId) {
@@ -208,7 +208,7 @@
 
         // LÓGICA DE WHATSAPP
         function agendar(servicio, precio) {
-            const texto = `Hola! 👋 Vi tu catálogo *Corte Maestro* y quiero agendar una cita para: \n\n📌 *${servicio}* \n💰 Precio: *${precio}* \n\n¿Qué disponibilidad tienes?`;
+            const texto = `Hola! 👋 Vi tu página *Corte Maestro* y quiero agendar una cita para: \n\n📌 *${servicio}* \n💰 Precio: *${precio}* \n\n¿Qué disponibilidad tienes?`;
             const url = `https://wa.me/${TELEFONO}?text=${encodeURIComponent(texto)}`;
             window.open(url, '_blank');
         }
