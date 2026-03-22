@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Scape</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --cream: #f4eade; /* Color crema suave para textos */
+            --glass: rgba(0, 0, 0, 0.8); /* Fondo negro cristalino más oscuro */
+            --border: rgba(244, 234, 222, 0.15); /* Borde crema muy suave */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body, html {
+            height: 100%; font-family: 'Inter', sans-serif; color: var(--cream);
+            background-color: #000; overflow-x: hidden; scroll-behavior: smooth;
+        }
+
+        /* === SECCIÓN HERO (Primera Foto) === */
+        .hero {
+            position: relative; height: 100vh; width: 100%;
+            /* === IMPORTANTE: SUBE UNA IMAGEN LLAMADA fondo-barberia.jpg === */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
+                        url('fondo-barberia.jpg') no-repeat center center;
+            background-size: cover;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 20px;
+        }
+
+        /* Logo Gótico Central */
+        .logo-main {
+            font-family: 'UnifrakturMaguntia', serif;
+            font-size: 110px; line-height: 0.8; margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(244, 234, 222, 0.5);
+            color: white;
+        }
+        .logo-main span { display: block; font-size: 45px; margin-top: -10px; font-weight: 400; }
+
+        .hero-subtitle { font-size: 16px; font-weight: 300; opacity: 0.9; margin-bottom: 50px; letter-spacing: 1px; }
+        .hero-subtitle strong { font-weight: 500; color: white; }
+
+        /* Botón Reservar Cita (Transparente) */
+        .btn-reserve {
+            background: transparent; color: var(--cream); border: 1.5px solid var(--cream);
+            padding: 15px 40px; font-size: 12px; text-transform: uppercase;
+            letter-spacing: 3px; font-weight: 600; cursor: pointer; text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-reserve:hover { background: var(--cream); color: black; box-shadow: 0 0 25px rgba(244, 234, 222, 0.4); }
+
+        /* Barra de Navegación Superior */
+        header {
+            position: absolute; top: 0; left: 0; width: 100%; padding: 30px 60px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 10;
+        }
+        .logo-top { font-family: 'UnifrakturMaguntia', serif; font-size: 28px; color: white; text-decoration: none; }
+        .logo-top i { font-size: 20px; margin-right: 8px; opacity: 0.8; }
+        
+        nav ul { list-style: none; display: flex; gap: 30px; }
+        nav a { text-decoration: none; color: white; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; font-weight: 500; }
+        nav a:hover { opacity: 1; color: var(--cream); }
+
+        /* Redes Sociales Laterales (Izquierda) */
+        .social-sidebar {
+            position: absolute; left: 40px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 25px; z-index: 10;
+        }
+        .social-sidebar a { color: white; font-size: 18px; opacity: 0.5; text-decoration: none; transition: 0.3s; }
+        .social-sidebar a:hover { opacity: 1; color: var(--cream); transform: scale(1.1); }
+
+        /* Texto rotado lateral derecho (opcional, estilo premium) */
+        .side-text {
+            position: absolute; right: -40px; top: 50%; transform: translateY(-50%) rotate(90deg);
+            font-size: 10px; text-transform: uppercase; letter-spacing: 5px; opacity: 0.3; color: white;
+        }
+
+        /* === SECCIÓN SERVICIOS (Segunda Foto) === */
+        .services {
+            padding: 100px 5%; background-color: #030303; text-align: center; position: relative;
+        }
+        
+        /* Número de sección /03 */
+        .section-number {
+            position: absolute; top: 100px; right: 60px; font-size: 14px; opacity: 0.3; letter-spacing: 2px; color: white;
+        }
+
+        .services-header {
+            font-size: 32px; font-family: 'Inter', sans-serif; font-weight: 300;
+            text-transform: uppercase; letter-spacing: 6px; 
+            display: inline-block; padding-bottom: 15px; margin-bottom: 80px;
+            color: white; position: relative;
+        }
+        .services-header::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 2px; background-color: var(--cream);
+        }
+
+        /* Grid de Tarjetas de Cristal */
+        .services-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px; max-width: 1300px; margin: 0 auto 60px auto;
+        }
+
+        /* Tarjeta Glassmorphism */
+        .service-card {
+            background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border); border-radius: 8px;
+            padding: 40px 35px; text-align: left;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+        .service-card:hover { border-color: rgba(244, 234, 222, 0.4); transform: translateY(-8px); }
+
+        /* Encabezado de la Tarjeta */
+        .card-header { display: flex; align-items: center; gap: 18px; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .card-icon { color: var(--cream); font-size: 26px; opacity: 0.9; }
+        .card-title {
+            font-size: 15px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 3px; line-height: 1.3; color: white;
+        }
+
+        /* Lista de Precios */
+        .price-list { list-style: none; }
+        .price-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 0; border-bottom: 1px solid rgba(244, 234, 222, 0.08);
+            font-size: 13px; font-weight: 400; letter-spacing: 1px;
+        }
+        .price-item:last-child { border-bottom: none; }
+        .service-name { text-transform: uppercase; opacity: 0.9; }
+        .service-price { font-weight: 600; color: white; font-size: 16px; }
+
+        /* Notas al pie */
+        .card-note { font-size: 12px; opacity: 0.5; margin-top: 20px; font-style: italic; line-height: 1.5; }
+        .services-footer-note { font-size: 12px; opacity: 0.4; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        /* === RESPONSIVO === */
+        @media (max-width: 1024px) {
+            header { padding: 20px 30px; }
+            nav ul { gap: 15px; }
+            .logo-main { font-size: 80px; }
+            .logo-main span { font-size: 32px; }
+            .section-number { right: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            header { position: relative; padding: 20px; flex-direction: column; gap: 15px; background: black; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .logo-main { font-size: 55px; margin-top: 40px; }
+            .logo-main span { font-size: 24px; }
+            .social-sidebar { position: relative; left: 0; top: 0; transform: none; flex-direction: row; justify-content: center; margin: 30px 0; }
+            .services-header { font-size: 26px; }
+            .services-container { grid-template-columns: 1fr; padding: 0 10px; }
+            .side-text { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <header>
+            <a href="#" class="logo-top"><i class="fas fa-cut"></i>Dark Scape</a>
+            <nav>
+                <ul>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#maestros">Maestros</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#portafolio">Portafolio</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="social-sidebar">
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+        </div>
+        
+        <div class="side-text">Premium Barber Experience</div>
+
+        <div class="logo-main">Dark Scape<span>Barbería</span></div>
+        <p class="hero-subtitle">Desde 2025</p>
+        <a href="#servicios" class="btn-reserve">Reservar Cita</a>
+    </section>
+
+    <section id="servicios" class="services">
+        <div class="section-number">/03</div>
+        <h2 class="services-header">Nuestros Servicios</h2>
+        
+        <div class="services-container">
+            
+    <div class="service-card">
+        <div class="card-header">
+            <i class="fas fa-cut card-icon"></i>
+            <h3 class="card-title">Cortes de<br>Cabello</h3>
+        </div>
+        <ul class="price-list">
+            <li class="price-item" onclick="reservar('Corte Clásico', '$6')">
+                <span class="service-name">Corte Clásico</span>
+                <span class="service-price">$6</span>
+            </li>
+            <li class="price-item" onclick="reservar('Corte con Máquina', '$8')">
+                <span class="service-name">Corte con Máquina</span>
+                <span class="service-price">$8</span>
+            </li>
+            <li class="price-item" onclick="reservar('Corte Junior', '$5')">
+                <span class="service-name">Corte Junior</span>
+                <span class="service-price">$5</span>
+            </li>
+        </ul>
+        <p class="card-note">Toca un servicio para agendar.</p>
+    </div>
+
+    <div class="service-card">
+        <div class="card-header">
+            <i class="fas fa-user-tie card-icon"></i>
+            <h3 class="card-title">Cuidado<br>de Barba</h3>
+        </div>
+        <ul class="price-list">
+            <li class="price-item" onclick="reservar('Recorte de Barba', '$6')">
+                <span class="service-name">Recorte de Barba</span>
+                <span class="service-price">$6</span>
+            </li>
+            <li class="price-item" onclick="reservar('Modelado Premium', '$10')">
+                <span class="service-name">Modelado Premium</span>
+                <span class="service-price">$10</span>
+            </li>
+        </ul>
+    </div>
+
+    </div>
+
+<script>
+    function reservar(servicio, precio) {
+        // REEMPLAZA ESTE NÚMERO POR EL DEL BARBERO (con código de país)
+        const telefono = "584120361856"; 
+        const mensaje = `Hola! Vi tu página de Dark Scape. Quiero agendar una cita para: *${servicio}* (${precio}). ¿Tienes disponibilidad?`;
+        
+        // Crea el link de WhatsApp
+        const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+        
+        // Abre WhatsApp en una pestaña nueva
+        window.open(url, '_blank');
+    }
+</script>
+
+<style>
+    /* Estilo para que parezca un botón */
+    .price-item {
+        cursor: pointer;
+        padding: 15px 10px;
+        border-radius: 5px;
+    }
+    .price-item:hover {
+        background: rgba(244, 234, 222, 0.1);
+        color: white;
+    }
+</style>
+
+</body>
+</html>
